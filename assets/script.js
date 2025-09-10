@@ -54,4 +54,57 @@
       }
     });
   });
+
+  // Reveal on scroll
+  const revealEls = document.querySelectorAll('[data-reveal]');
+  if ('IntersectionObserver' in window) {
+    const revealObserver = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { root: null, rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
+    revealEls.forEach(el => revealObserver.observe(el));
+  } else {
+    revealEls.forEach(el => el.classList.add('in-view'));
+  }
+
+  // Section-based background accents
+  const sections = document.querySelectorAll('section[data-section]');
+  const setSection = (name) => document.body.setAttribute('data-section', name);
+  if (sections.length) {
+    setSection(sections[0].dataset.section || 'hero');
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const name = entry.target.dataset.section;
+          if (name) setSection(name);
+        }
+      });
+    }, { threshold: 0.5 });
+    sections.forEach(s => sectionObserver.observe(s));
+  }
+
+  // Parallax background motion
+  const bg = document.querySelector('.bg-gradient');
+  if (bg) {
+    let raf, tx = 0, ty = 0, cx = 0, cy = 0;
+    const onMove = (e) => {
+      const w = window.innerWidth, h = window.innerHeight;
+      const x = (e.clientX / w - 0.5);
+      const y = (e.clientY / h - 0.5);
+      tx = x * 24; ty = y * 24;
+      if (!raf) {
+        raf = requestAnimationFrame(() => {
+          cx += (tx - cx) * 0.08;
+          cy += (ty - cy) * 0.08;
+          bg.style.transform = `translate3d(${cx}px, ${cy}px, 0)`;
+          raf = null;
+        });
+      }
+    };
+    window.addEventListener('pointermove', onMove, { passive: true });
+  }
 })();
