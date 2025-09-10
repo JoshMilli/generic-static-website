@@ -13,6 +13,7 @@ const __dirname = path.dirname(__filename);
 const PORT = process.env.PORT || 3000;
 const DATA_DIR = path.join(__dirname, "data");
 const EVENTS_FILE = path.join(DATA_DIR, "events.jsonl");
+const TUNNEL_FILE = path.join(DATA_DIR, "tunnel_url.txt");
 
 // Ensure data directory exists
 fs.mkdirSync(DATA_DIR, { recursive: true });
@@ -27,7 +28,7 @@ app.use(morgan("dev"));
 app.use(bodyParser.json({ type: ["application/json", "application/*+json"], limit: "5mb" }));
 app.use((req, res, next) => {
   // Basecamp can deliver webhooks without content-type sometimes
-  if (!req.is("application/json") &amp;&amp; req.method === "POST" &amp;&amp; req.headers["content-type"]?.includes("json") === false) {
+  if (!req.is("application/json") && req.method === "POST" && req.headers["content-type"]?.includes("json") === false) {
     // Attempt to parse raw body if needed (Express needs a body parser for raw, but keep simple)
   }
   next();
@@ -45,9 +46,9 @@ function appendEvent(rec) {
 function summarizeText(text) {
   if (!text || typeof text !== "string") return "";
   const trimmed = text.trim().replace(/\s+/g, " ");
-  const sentence = trimmed.split(/(?&lt;=[.!?])\s+/)[0];
-  const candidate = sentence.length &gt; 0 ? sentence : trimmed;
-  return candidate.length &gt; 160 ? candidate.slice(0, 157) + "..." : candidate;
+  const sentence = trimmed.split(/(?<=[.!?])\s+/)[0];
+  const candidate = sentence.length > 0 ? sentence : trimmed;
+  return candidate.length > 160 ? candidate.slice(0, 157) + "..." : candidate;
 }
 
 // Utility: naive keyword extraction
@@ -134,7 +135,8 @@ app.post("/webhooks/basecamp", (req, res) => {
 
 // Analytics JSON
 app.get("/analytics.json", (req, res) => {
-  const lines = fs.readFileSync(EVENTS_FILE, "utf-8").trim().split("\n").filter(Boolean);
+  const text = fs.existsSync(EVENTS_FILE) ? fs.readFileSync(EVENTS_FILE, "utf-8") : "";
+  const lines = text.trim() ? text.trim().split("\n") : [];
   const events = lines.map(l => {
     try { return JSON.parse(l).normalized; } catch { return null; }
   }).filter(Boolean);
@@ -237,9 +239,30 @@ load();
 // Health check
 app.get("/healthz", (req, res) => res.json({ ok: true }));
 
-app.listen(PORT, () => {
+// Localtunnel support for free public URL
+let currentTunnelUrl = null;
+app.get("/_tunnel", (req, res) => {
+  res.json({ url: currentTunnelUrl });
+});
+
+app.listen(PORT, async () => {
   // eslint-disable-next-line no-console
   console.log(`Webhook server listening on http://localhost:${PORT}`);
   console.log(`POST your Basecamp webhook to: http://localhost:${PORT}/webhooks/basecamp`);
   console.log(`View analytics at: http://localhost:${PORT}/analytics`);
+
+  if (process.env.ENABLE_TUNNEL === "true") {
+    try {
+      const localtunnel = (await import("localtunnel")).default;
+      const tunnel = await localtunnel({ port: Number(PORT) });
+      currentTunnelUrl = `${tunnel.url}/webhooks/basecamp`;
+      fs.writeFileSync(TUNNEL_FILE, currentTunnelUrl, "utf-8");
+      console.log(`Public Payload URL (via localtunnel): ${currentTunnelUrl}`);
+      tunnel.on("close", () => {
+        console.log("Localtunnel closed");
+      });
+    } catch (e) {
+      console.error("Failed to start localtunnel. You can still use localhost or start ngrok manually.", e?.message || e);
+    }
+  }
 });
