@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: basecamp-webhook-collector
+    env: docker
+    plan: free
+    autoDeploy: true
+    healthCheckPath: /healthz

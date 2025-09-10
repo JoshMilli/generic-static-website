@@ -3,15 +3,40 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>My Static Site</title>
+  <title>Basecamp Webhook Collector</title>
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
+  <header>
+    <h1>Basecamp Webhook Collector</h1>
+  </header>
   <main>
-    <h1>Welcome to Your Static Site</h1>
+    <section class="hero">
+      <div class="hero-text">
+        <h2>Live Chat Analytics for Basecamp</h2>
+        <p>Start the server with a free public URL (npm run dev:tunnel), then paste the Payload URL into Basecamp’s webhook settings.</p>
+        <div class="cta">
+          <a class="btn primary" href="/analytics">Open Analytics Dashboard</a>
+          <button id="copyPayload" class="btn">Copy Payload URL</button>
+        </div>
+      </div>
+      <div class="hero-card">
+        <h3>Endpoint Status</h3>
+        <ul class="status-list">
+          <li><strong>Health:</strong> <span id="health">Checking…</span></li>
+          <li><strong>Payload URL:</strong> <span id="payloadUrl">Waiting for tunnel…</span></li>
+          <li><strong>Total messages:</strong> <span id="total">0</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="recent">
+      <h3>Recent Messages</h3>
+      <ol id="recentList" class="recent-list"></ol>
+    </section>
   </main>
   <footer>
-    <p>&copy; 2025 Your Name</p>
+    <p>&copy; 2025 Basecamp Webhook Collector</p>
   </footer>
   <script src="assets/script.js"></script>
 </body>
