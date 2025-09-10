@@ -3,16 +3,277 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>My Static Site</title>
+  <meta name="description" content="Ship modern websites and apps faster. A clean, conversion‑optimized landing page template with crisp UI, speed, and accessibility.">
+  <title>Acme — Build fast. Ship faster.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
+  <div class="bg-wrap" aria-hidden="true">
+    <div class="bg-gradient"></div>
+    <div class="bg-grid"></div>
+  </div>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="#">
+        <span class="logo">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="g" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#7C3AED"/>
+                <stop offset="1" stop-color="#06B6D4"/>
+              </linearGradient>
+            </defs>
+            <rect x="2" y="2" width="20" height="20" rx="6" fill="url(#g)"/>
+            <path d="M8 12h8" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            <path d="M12 8v8" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span>Acme</span>
+      </a>
+      <nav class="nav">
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact" class="link-muted">Contact</a>
+      </nav>
+      <div class="cta-group">
+        <button class="btn ghost" id="theme-toggle" aria-label="Toggle theme">Theme</button>
+        <a class="btn primary" href="#cta">Get Started</a>
+        <button class="hamburger" id="hamburger" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
   <main>
-    <h1>Welcome to Your Static Site</h1>
+    <section class="hero container">
+      <div class="hero-content">
+        <h1>Build fast. Ship faster.</h1>
+        <p class="lead">A minimal, conversion‑focused landing page that looks premium out of the box. Clean typography, fluid layout, and thoughtful interactions — no build step required.</p>
+        <div class="cta-inline" id="cta">
+          <a class="btn primary lg" href="#pricing">Start free</a>
+          <a class="btn outline lg" href="#features">See features</a>
+        </div>
+        <div class="social-proof">
+          <div class="avatars" aria-label="Customer avatars">
+            <span class="avatar a1"></span>
+            <span class="avatar a2"></span>
+            <span class="avatar a3"></span>
+            <span class="avatar a4"></span>
+          </div>
+          <p><strong>2,184+</strong> teams launched faster</p>
+        </div>
+      </div>
+      <div class="hero-media">
+        <div class="browser">
+          <div class="browser-chrome">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+            <div class="address">acme.dev/app</div>
+          </div>
+          <div class="code">
+<pre><code><span class="c">// Install the CLI</span>
+curl -sSL acme.dev/install.sh | bash
+
+<span class="c">// Create your project</span>
+acme init my-app
+
+<span class="c">// Ship it</span>
+acme deploy --prod
+</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="logos" class="logos container">
+      <p class="eyebrow">Trusted by modern teams</p>
+      <div class="logo-row">
+        <span>Orbit</span><span>Nova</span><span>Pulse</span><span>Quanta</span><span>Zephyr</span><span>Helix</span>
+      </div>
+    </section>
+
+    <section id="features" class="features container">
+      <div class="section-head">
+        <h2>Opinionated for speed</h2>
+        <p>Everything you need to convert visitors into users. Nothing you don’t.</p>
+      </div>
+      <div class="grid">
+        <article class="feature">
+          <div class="icon gradient"></div>
+          <h3>Pixel‑perfect UI</h3>
+          <p>Crisp type, balanced spacing, and accessible contrast. Looks great on every screen.</p>
+        </article>
+        <article class="feature">
+          <div class="icon gradient"></div>
+          <h3>Made for conversion</h3>
+          <p>Primary CTAs where they matter, social proof, and frictionless flows.</p>
+        </article>
+        <article class="feature">
+          <div class="icon gradient"></div>
+          <h3>No build step</h3>
+          <p>Static HTML/CSS/JS. Host anywhere. Loads instantly with a tiny footprint.</p>
+        </article>
+        <article class="feature">
+          <div class="icon gradient"></div>
+          <h3>Accessible by default</h3>
+          <p>Keyboard friendly, semantic markup, and screen‑reader aware.</p>
+        </article>
+        <article class="feature">
+          <div class="icon gradient"></div>
+          <h3>Production‑ready</h3>
+          <p>Clean structure, easy to extend, and designed to be maintained.</p>
+        </article>
+        <article class="feature">
+          <div class="icon gradient"></div>
+          <h3>Light & dark theme</h3>
+          <p>Toggle themes instantly. Preferences persist automatically.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="split container">
+      <div class="card">
+        <h3>Beautiful out of the box</h3>
+        <p>Skip the drudgery. Start from a polished baseline and focus on your product.</p>
+        <ul class="checklist">
+          <li>Thoughtful defaults</li>
+          <li>Motion that guides</li>
+          <li>Responsive from the start</li>
+        </ul>
+      </div>
+      <div class="card code-card">
+<pre><code>&lt;section class="hero"&gt;
+  &lt;h1&gt;Build fast. Ship faster.&lt;/h1&gt;
+  &lt;a class="btn primary"&gt;Start free&lt;/a&gt;
+&lt;/section&gt;</code></pre>
+      </div>
+    </section>
+
+    <section class="testimonials container">
+      <div class="section-head">
+        <h2>Loved by builders</h2>
+        <p>From solo makers to startup teams.</p>
+      </div>
+      <div class="t-grid">
+        <figure class="t">
+          <blockquote>“The cleanest starter I’ve used. We shipped in days, not weeks.”</blockquote>
+          <figcaption>— Alex R., Product Lead</figcaption>
+        </figure>
+        <figure class="t">
+          <blockquote>“Design feels premium without the overhead. Our conversions went up 23%.”</blockquote>
+          <figcaption>— Priya S., Founder</figcaption>
+        </figure>
+        <figure class="t">
+          <blockquote>“No build, no fuss. Perfect for quick, beautiful launches.”</blockquote>
+          <figcaption>— Marco T., Indie Hacker</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="pricing" class="pricing container">
+      <div class="section-head">
+        <h2>Simple pricing</h2>
+        <p>Start free. Upgrade when you grow.</p>
+      </div>
+      <div class="p-grid">
+        <div class="plan">
+          <div class="badge">Free</div>
+          <h3>$0</h3>
+          <p>Perfect for experiments and MVPs.</p>
+          <ul class="checklist">
+            <li>Unlimited pages</li>
+            <li>Community support</li>
+            <li>Open source license</li>
+          </ul>
+          <a class="btn outline block" href="#cta">Get started</a>
+        </div>
+        <div class="plan highlight">
+          <div class="badge">Pro</div>
+          <h3>$12<span>/mo</span></h3>
+          <p>For teams that ship weekly.</p>
+          <ul class="checklist">
+            <li>Custom domain</li>
+            <li>Priority support</li>
+            <li>Early features</li>
+          </ul>
+          <a class="btn primary block" href="#cta">Try Pro</a>
+        </div>
+        <div class="plan">
+          <div class="badge">Enterprise</div>
+          <h3>Let’s talk</h3>
+          <p>Security, support, and SLAs.</p>
+          <ul class="checklist">
+            <li>SAML SSO</li>
+            <li>Uptime SLA</li>
+            <li>Dedicated support</li>
+          </ul>
+          <a class="btn outline block" href="#contact">Contact sales</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="faq container">
+      <div class="section-head">
+        <h2>Frequently asked questions</h2>
+      </div>
+      <div class="accordion">
+        <details>
+          <summary>Is this really just static HTML/CSS?</summary>
+          <p>Yes. No frameworks, no bundlers. It’s fast, portable, and easy to host anywhere.</p>
+        </details>
+        <details>
+          <summary>Can I customize the design?</summary>
+          <p>Absolutely. Tweak colors, spacing, and components. The CSS is small and readable.</p>
+        </details>
+        <details>
+          <summary>Does it support dark mode?</summary>
+          <p>Yes. It adapts to system preference and includes a manual toggle.</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="cta-final container">
+      <h2>Make something people want</h2>
+      <p>Launch a sharp, credible site today — and focus on your product tomorrow.</p>
+      <a class="btn primary lg" href="#pricing">Start free</a>
+    </section>
   </main>
-  <footer>
-    <p>&copy; 2025 Your Name</p>
+
+  <footer class="site-footer" id="contact">
+    <div class="container">
+      <div class="f-brand">
+        <a class="brand" href="#">
+          <span class="logo small">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <defs>
+                <linearGradient id="g2" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#7C3AED"/>
+                  <stop offset="1" stop-color="#06B6D4"/>
+                </linearGradient>
+              </defs>
+              <rect x="2" y="2" width="20" height="20" rx="6" fill="url(#g2)"/>
+            </svg>
+          </span>
+          <span>Acme</span>
+        </a>
+        <p class="subtle">© <span id="year"></span> Acme, Inc. All rights reserved.</p>
+      </div>
+      <nav class="f-nav">
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+        <a href="mailto:hello@example.com">Email</a>
+      </nav>
+    </div>
   </footer>
+
   <script src="assets/script.js"></script>
 </body>
 </html>
