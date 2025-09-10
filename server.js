@@ -26,6 +26,7 @@ const app = express();
 // Middleware
 app.use(morgan("dev"));
 app.use(bodyParser.json({ type: ["application/json", "application/*+json"], limit: "5mb" }));
+app.use(bodyParser.urlencoded({ extended: true })); // fallback if Basecamp ever posts form-encoded
 app.use((req, res, next) => {
   // Basecamp can deliver webhooks without content-type sometimes
   if (!req.is("application/json") && req.method === "POST" && req.headers["content-type"]?.includes("json") === false) {
@@ -40,6 +41,24 @@ app.use("/", express.static(__dirname));
 // Utility: write event to JSONL
 function appendEvent(rec) {
   fs.appendFileSync(EVENTS_FILE, JSON.stringify(rec) + "\n");
+}
+
+// Utility: read last N normalized events
+function readRecent(n = 50) {
+  if (!fs.existsSync(EVENTS_FILE)) return [];
+  const text = fs.readFileSync(EVENTS_FILE, "utf-8");
+  const lines = text.trim() ? text.trim().split("\n") : [];
+  const slice = lines.slice(-n);
+  const out = [];
+  for (const l of slice) {
+    try {
+      const parsed = JSON.parse(l);
+      out.push(parsed.normalized || parsed);
+    } catch {
+      // skip
+    }
+  }
+  return out.reverse();
 }
 
 // Utility: basic summarizer (extract first sentence or 160 chars)
@@ -129,8 +148,17 @@ app.post("/webhooks/basecamp", (req, res) => {
 
   appendEvent({ raw: event, normalized });
 
+  // Log to console to help with debugging during testing
+  console.log(`[Basecamp webhook] type=${normalized.type} action=${normalized.action} sender="${normalized.sender.name}" summary="${normalized.summary}"`);
+
   // Always acknowledge quickly
   res.status(200).json({ ok: true });
+});
+
+// Recent events (for homepage preview/debug)
+app.get("/events/recent", (req, res) => {
+  const n = Number(req.query.n || 25);
+  res.json({ events: readRecent(Math.max(1, Math.min(n, 200))) });
 });
 
 // Analytics JSON
